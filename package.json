@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Advanced counting bot that will allow different forms of number inputs",
   "keywords": [
-    "[counting",
+    "counting",
     "numbers",
-    "increase]"
+    "increase"
   ],
   "license": "ISC",
   "author": "Sdriver1 (https://sdriver1.dev)",
@@ -14,7 +14,11 @@
   "scripts": {
     "start": "node src/index.js",
     "dbsetup": "npx prisma migrate dev --name init",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "setup": "npm run dbsetup && npm run generate",
+    "dev": "npm run setup && npm start",
+    "reset-db": "npx prisma migrate reset --force",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.2.0",
