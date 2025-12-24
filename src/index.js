@@ -73,14 +73,27 @@ client.on("messageCreate", async (message) => {
       mode = require("./modes/normal");
     }
 
-    const { isValid, value, expression } =
-      require("./functions/counter/numberverifier").verifyNumber(
+    let isValid, value, expression;
+
+    if (mode.disableMath) {
+      const parsed = parseInt(message.content.trim());
+      if (isNaN(parsed)) {
+        return;
+      }
+      isValid = true;
+      value = parsed;
+      expression = null;
+    } else {
+      const result = require("./functions/counter/numberverifier").verifyNumber(
         message.content,
         counter.currentNumber
       );
+      isValid = result.isValid;
+      value = result.value;
+      expression = result.expression;
+    }
 
     if (isValid && mode.validate(counter.currentNumber, value, counter.position)) {
-      // Check if same user counted twice in a row
       if (counter.lastUserId === message.author.id) {
         await message.react("❌");
         await message.reply("❌ You cannot count twice in a row!");
