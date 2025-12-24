@@ -6,6 +6,9 @@ const prisma = require("../prisma/database");
 
 const ready = require("./functions/bot/ready");
 const interactionCreate = require("./functions/bot/interactioncreate");
+const joins = require("./functions/server/joins");
+const leaves = require("./functions/server/leaves");
+const startStatusUpdater = require("./functions/server/statusupdater");
 
 const client = new Client({
   intents: [
@@ -35,20 +38,29 @@ for (const folder of commandFolders) {
   }
 }
 
-client.once("ready", () => ready(client));
+client.once("ready", () => {
+  ready(client);
+  startStatusUpdater(client);
+});
 client.on("interactionCreate", (interaction) =>
   interactionCreate(client, interaction)
 );
+
+client.on("guildCreate", (guild) => joins(client, guild));
+client.on("guildDelete", (guild) => leaves(client, guild));
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   try {
-    const counter = await prisma.counter.findUnique({
-      where: { guildId: message.guild.id },
+    const counter = await prisma.counter.findFirst({
+      where: { 
+        guildId: message.guild.id,
+        channelId: message.channel.id
+      },
     });
 
-    if (!counter || counter.channelId !== message.channel.id) return;
+    if (!counter) return;
 
     const blacklist = JSON.parse(counter.blacklistedUsers || "[]");
     if (blacklist.includes(message.author.id)) {
@@ -100,7 +112,7 @@ client.on("messageCreate", async (message) => {
         await message.reply("❌ You cannot count twice in a row!");
 
         await prisma.counter.update({
-          where: { guildId: message.guild.id },
+          where: { id: counter.id },
           data: {
             currentNumber: 0,
             position: 0,
@@ -110,7 +122,7 @@ client.on("messageCreate", async (message) => {
         return;
       }
       await prisma.counter.update({
-        where: { guildId: message.guild.id },
+        where: { id: counter.id },
         data: {
           currentNumber: value,
           position: counter.position + 1,
@@ -158,7 +170,7 @@ client.on("messageCreate", async (message) => {
         `❌ Wrong number! Expected ${expected}, but got ${value}`
       );
       await prisma.counter.update({
-        where: { guildId: message.guild.id },
+        where: { id: counter.id },
         data: {
           currentNumber: 0,
           position: 0,

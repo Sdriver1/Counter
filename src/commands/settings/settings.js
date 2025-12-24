@@ -14,6 +14,12 @@ module.exports = {
       subcommand
         .setName("mode")
         .setDescription("Change the counting mode")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addStringOption((option) =>
           option
             .setName("new-mode")
@@ -30,6 +36,12 @@ module.exports = {
       subcommand
         .setName("slowmode")
         .setDescription("Set slowmode for the counting channel")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addIntegerOption((option) =>
           option
             .setName("seconds")
@@ -43,6 +55,12 @@ module.exports = {
       subcommand
         .setName("blacklist")
         .setDescription("Blacklist a user from counting")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addUserOption((option) =>
           option
             .setName("user")
@@ -54,6 +72,12 @@ module.exports = {
       subcommand
         .setName("unblacklist")
         .setDescription("Remove a user from the blacklist")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addUserOption((option) =>
           option
             .setName("user")
@@ -65,6 +89,12 @@ module.exports = {
       subcommand
         .setName("whitelist")
         .setDescription("Whitelist a user (only whitelisted users can count)")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addUserOption((option) =>
           option
             .setName("user")
@@ -76,6 +106,12 @@ module.exports = {
       subcommand
         .setName("unwhitelist")
         .setDescription("Remove a user from the whitelist")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify")
+            .setRequired(true)
+        )
         .addUserOption((option) =>
           option
             .setName("user")
@@ -87,21 +123,31 @@ module.exports = {
       subcommand
         .setName("reset")
         .setDescription("Reset the counter to 0")
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to reset")
+            .setRequired(true)
+        )
     ),
 
   async execute(interaction) {
     try {
       const subcommand = interaction.options.getSubcommand();
       const guildId = interaction.guild.id;
+      const selectedChannel = interaction.options.getChannel("channel");
 
-      const counter = await prisma.counter.findUnique({
-        where: { guildId },
+      const counter = await prisma.counter.findFirst({
+        where: { 
+          guildId,
+          channelId: selectedChannel.id
+        },
       });
 
       if (!counter) {
         return interaction.reply({
           content:
-            "❌ No counter has been set up yet. Use `/setup-counter` first.",
+            `❌ No counter has been set up in ${selectedChannel}. Use \`/setup-counter\` first.`,
           ephemeral: true,
         });
       }
@@ -143,7 +189,7 @@ async function handleModeChange(interaction, counter) {
   const newMode = interaction.options.getString("new-mode");
 
   await prisma.counter.update({
-    where: { guildId: interaction.guild.id },
+    where: { id: counter.id },
     data: {
       mode: newMode,
       currentNumber: 0,
@@ -202,7 +248,7 @@ async function handleBlacklist(interaction, counter, add) {
   }
 
   await prisma.counter.update({
-    where: { guildId: interaction.guild.id },
+    where: { id: counter.id },
     data: { blacklistedUsers: JSON.stringify(blacklist) },
   });
 
@@ -238,7 +284,7 @@ async function handleWhitelist(interaction, counter, add) {
   }
 
   await prisma.counter.update({
-    where: { guildId: interaction.guild.id },
+    where: { id: counter.id },
     data: { whitelistedUsers: JSON.stringify(whitelist) },
   });
 
@@ -252,7 +298,7 @@ async function handleWhitelist(interaction, counter, add) {
 
 async function handleReset(interaction, counter) {
   await prisma.counter.update({
-    where: { guildId: interaction.guild.id },
+    where: { id: counter.id },
     data: {
       currentNumber: 0,
       position: 0,

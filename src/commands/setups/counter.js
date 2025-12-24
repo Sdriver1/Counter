@@ -47,15 +47,24 @@ module.exports = {
       const countingMode =
         interaction.options.getString("counting-mode") || "normal";
       const existingCounter = await prisma.counter.findUnique({
-        where: { guildId },
+        where: { 
+          guildId_mode: {
+            guildId,
+            mode: countingMode
+          }
+        },
       });
 
       if (existingCounter) {
         await prisma.counter.update({
-          where: { guildId },
+          where: { 
+            guildId_mode: {
+              guildId,
+              mode: countingMode
+            }
+          },
           data: {
             channelId,
-            mode: countingMode,
             currentNumber: 0,
             position: 0,
             lastUserId: null,
