@@ -1,0 +1,315 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    color: #eee;
+    line-height: 1.8;
+    min-height: 100vh;
+    padding: 30px 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(22, 33, 62, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+header {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    color: #eee;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(233, 69, 96, 0.1) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+header h1 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    position: relative;
+    z-index: 1;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+    color: #aaa;
+    position: relative;
+    z-index: 1;
+}
+
+.section {
+    padding: 40px;
+    position: relative;
+}
+
+.section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(233, 69, 96, 0.3), transparent);
+}
+
+.section:last-of-type::after {
+    display: none;
+}
+
+h2 {
+    color: #e94560;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 600;
+    display: inline-block;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, #e94560, transparent);
+    border-radius: 10px;
+}
+
+h3 {
+    color: #5db7de;
+    font-size: 1.4em;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.command {
+    background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(15, 52, 96, 0.3) 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #e94560;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.command:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 25px rgba(233, 69, 96, 0.3);
+}
+
+.mode {
+    background: linear-gradient(135deg, rgba(15, 52, 96, 0.6) 0%, rgba(15, 52, 96, 0.3) 100%);
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    border-left: 4px solid #5db7de;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mode:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 25px rgba(93, 183, 222, 0.3);
+}
+
+.command p, .mode p {
+    margin: 10px 0;
+    color: #ccc;
+}
+
+.command ul, .mode ul {
+    margin-top: 12px;
+    margin-left: 20px;
+    color: #ccc;
+}
+
+.command ul li {
+    margin: 8px 0;
+}
+
+code {
+    background: rgba(26, 26, 46, 0.8);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    color: #5db7de;
+    font-weight: 500;
+    border: 1px solid rgba(93, 183, 222, 0.3);
+    transition: background 0.2s ease;
+}
+
+code:hover {
+    background: rgba(93, 183, 222, 0.1);
+}
+
+.examples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.example-item {
+    background: linear-gradient(135deg, rgba(15, 52, 96, 0.5) 0%, rgba(15, 52, 96, 0.2) 100%);
+    padding: 20px;
+    border-radius: 18px;
+    border-left: 3px solid #e94560;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.example-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.3);
+}
+
+.example-item strong {
+    display: block;
+    color: #5db7de;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.example-item code {
+    color: #e94560;
+}
+
+.rules {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.rules li {
+    padding: 12px 20px;
+    padding-left: 40px;
+    position: relative;
+    color: #ddd;
+    margin: 8px 0;
+    background: rgba(15, 52, 96, 0.3);
+    border-radius: 12px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.rules li:hover {
+    background: rgba(15, 52, 96, 0.5);
+    transform: translateX(5px);
+}
+
+footer {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    color: #aaa;
+    text-align: center;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #e94560, transparent);
+}
+
+footer p {
+    margin: 8px 0;
+    position: relative;
+    z-index: 1;
+}
+
+footer a {
+    color: #5db7de;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+footer a svg {
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+footer .separator {
+    margin: 0 10px;
+    color: #555;
+}
+
+footer a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #e94560;
+    transition: width 0.3s ease;
+}
+
+footer a:hover {
+    color: #e94560;
+}
+
+footer a:hover svg {
+    transform: scale(1.1);
+}
+
+footer a:hover::after {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    header h1 {
+        font-size: 2.2em;
+    }
+    
+    .section {
+        padding: 30px 25px;
+    }
+    
+    .examples {
+        grid-template-columns: 1fr;
+    }
+
+    .command, .mode {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountingBot Docs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CountingBot</h1>
+            <p class="subtitle">count stuff. do math. have fun.</p>
+        </header>
+
+        <section class="section">
+            <h2>what is this?</h2>
+            <p>a discord bot where you count numbers in order. except you can do math too, which is neat. get it wrong and you start over. don't count twice or you'll reset everyone's progress.</p>
+        </section>
+
+        <section class="section">
+            <h2>⚙️ setup</h2>
+            <div class="command">
+                <h3>/setup-counter</h3>
+                <p><strong>who can use:</strong> admins</p>
+                <p><strong>what it does:</strong> sets up counting in a channel</p>
+                <p><strong>options:</strong></p>
+                <ul>
+                    <li><code>channel</code> - pick where to count (default: current channel)</li>
+                    <li><code>counting-mode</code> - normal, fibonacci, or prime numbers</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎮 commands</h2>
+            
+            <div class="command">
+                <h3>/stats</h3>
+                <p>see how you're doing. shows current count, total counts, and who's counting the most</p>
+            </div>
+
+            <div class="command">
+                <h3>/botstats</h3>
+                <p>bot stats across all servers. guilds, users, counts, highest records per mode</p>
+            </div>
+
+            <div class="command">
+                <h3>/counter-setting</h3>
+                <p><strong>who can use:</strong> admins</p>
+                <p><strong>subcommands:</strong></p>
+                <ul>
+                    <li><code>mode</code> - change between normal/fibonacci/prime</li>
+                    <li><code>slowmode</code> - add slowmode to the channel (0-21600 seconds)</li>
+                    <li><code>blacklist</code> - ban someone from counting</li>
+                    <li><code>unblacklist</code> - unban them</li>
+                    <li><code>whitelist</code> - only let certain people count</li>
+                    <li><code>unwhitelist</code> - remove from whitelist</li>
+                    <li><code>reset</code> - reset counter to 0</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 counting modes</h2>
+            
+            <div class="mode">
+                <h3>normal mode</h3>
+                <p>regular counting: 1, 2, 3, 4, 5...</p>
+                <p>classic. simple. you know the drill.</p>
+            </div>
+
+            <div class="mode">
+                <h3>fibonacci mode</h3>
+                <p>fibonacci sequence: 1, 1, 2, 3, 5, 8, 13, 21...</p>
+                <p>each number is the sum of the previous two. gets spicy fast.</p>
+            </div>
+
+            <div class="mode">
+                <h3>prime mode</h3>
+                <p>only prime numbers: 2, 3, 5, 7, 11, 13, 17, 19, 23...</p>
+                <p>for the math nerds. no composites allowed.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🧮 math stuff</h2>
+            <p>you can type math expressions instead of plain numbers:</p>
+            
+            <div class="examples">
+                <div class="example-item">
+                    <strong>basic:</strong>
+                    <code>1+1</code> → 2
+                </div>
+                
+                <div class="example-item">
+                    <strong>multiply:</strong>
+                    <code>2*2</code> → 4
+                </div>
+                
+                <div class="example-item">
+                    <strong>powers:</strong>
+                    <code>2^3</code> → 8
+                </div>
+                
+                <div class="example-item">
+                    <strong>complex:</strong>
+                    <code>(5*2)+1</code> → 11
+                </div>
+                
+                <div class="example-item">
+                    <strong>sqrt:</strong>
+                    <code>sqrt(16)</code> → 4
+                </div>
+                
+                <div class="example-item">
+                    <strong>division:</strong>
+                    <code>10/2</code> → 5
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📜 the rules</h2>
+            <ul class="rules">
+                <li>✅ count in order (depends on mode)</li>
+                <li>❌ can't count twice in a row</li>
+                <li>❌ wrong number = reset to 0</li>
+                <li>✅ math expressions work</li>
+                <li>🚫 blacklisted users can't count</li>
+                <li>🔒 if whitelist is active, only whitelisted users can count</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>made by sdriver1</p>
+            <p>
+                <a href="https://sdriver1.dev" target="_blank">sdriver1.dev</a>
+                <span class="separator">•</span>
+                <a href="https://github.com/Sdriver1/Counter" target="_blank" class="github-link">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                    </svg>
+                    github
+                </a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
