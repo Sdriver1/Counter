@@ -50,13 +50,22 @@ client.on("messageCreate", async (message) => {
 
     if (!counter || counter.channelId !== message.channel.id) return;
 
+    const modeName = counter.mode || "normal";
+    let mode;
+    try {
+      mode = require(`./modes/${modeName}`);
+    } catch (error) {
+      console.error(`Failed to load mode ${modeName}, falling back to normal`);
+      mode = require("./modes/normal");
+    }
+
     const { isValid, value, expression } =
       require("./functions/counter/numberverifier").verifyNumber(
         message.content,
         counter.currentNumber
       );
 
-    if (isValid && value === counter.currentNumber + 1) {
+    if (isValid && mode.validate(counter.currentNumber, value, counter.position)) {
       // Check if same user counted twice in a row
       if (counter.lastUserId === message.author.id) {
         await message.react("❌");
@@ -67,6 +76,7 @@ client.on("messageCreate", async (message) => {
           where: { guildId: message.guild.id },
           data: {
             currentNumber: 0,
+            position: 0,
             lastUserId: null,
           },
         });
@@ -76,6 +86,7 @@ client.on("messageCreate", async (message) => {
         where: { guildId: message.guild.id },
         data: {
           currentNumber: value,
+          position: counter.position + 1,
           lastUserId: message.author.id,
         },
       });
@@ -92,15 +103,15 @@ client.on("messageCreate", async (message) => {
       await message.react("✅");
     } else if (isValid) {
       await message.react("❌");
+      const expected = mode.getExpectedDescription(counter.currentNumber);
       await message.reply(
-        `❌ Wrong number! Expected ${
-          counter.currentNumber + 1
-        }, but got ${value}`
+        `❌ Wrong number! Expected ${expected}, but got ${value}`
       );
       await prisma.counter.update({
         where: { guildId: message.guild.id },
         data: {
           currentNumber: 0,
+          position: 0,
           lastUserId: null,
         },
       });

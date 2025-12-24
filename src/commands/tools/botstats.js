@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const prisma = require('../../../prisma/database');
+const prisma = require("../../../prisma/database");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,21 +18,27 @@ module.exports = {
       });
       const totalCounts = await prisma.countHistory.count();
       const activeCounters = await prisma.counter.count();
-      const highestCountRecord = await prisma.counter.findFirst({
-        orderBy: {
-          currentNumber: "desc",
-        },
+
+      const highestNormal = await prisma.counter.findFirst({
+        where: { mode: "normal" },
+        orderBy: { currentNumber: "desc" },
       });
-      const highestHistoryRecord = await prisma.countHistory.findFirst({
-        orderBy: {
-          number: "desc",
-        },
+      const highestFibonacci = await prisma.counter.findFirst({
+        where: { mode: "fibonacci" },
+        orderBy: { currentNumber: "desc" },
+      });
+      const highestPrime = await prisma.counter.findFirst({
+        where: { mode: "prime" },
+        orderBy: { currentNumber: "desc" },
       });
 
-      const highestCount = Math.max(
-        highestCountRecord?.currentNumber || 0,
-        highestHistoryRecord?.number || 0
-      );
+      const highestCount =
+        "Normal: " +
+        (highestNormal ? highestNormal.currentNumber : 0) +
+        "\n Fibonacci: " +
+        (highestFibonacci ? highestFibonacci.currentNumber : 0) +
+        "\n Prime: " +
+        (highestPrime ? highestPrime.currentNumber : 0);
 
       const embed = new EmbedBuilder()
         .setColor("#5865F2")
