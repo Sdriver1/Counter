@@ -16,6 +16,10 @@ app.get("/invite", (req, res) => {
   );
 });
 
+app.get("/discord", (req, res) => {
+  res.redirect("https://discord.gg/3qgkYxmVfE");
+});
+
 app.listen(PORT, () => {
   console.log(`📚 Documentation server running at http://localhost:${PORT}`);
 });
