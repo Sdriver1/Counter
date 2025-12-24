@@ -50,14 +50,12 @@ client.on("messageCreate", async (message) => {
 
     if (!counter || counter.channelId !== message.channel.id) return;
 
-    // Check blacklist
     const blacklist = JSON.parse(counter.blacklistedUsers || "[]");
     if (blacklist.includes(message.author.id)) {
       await message.react("🚫");
       return;
     }
 
-    // Check whitelist (if whitelist has entries, only whitelisted users can count)
     const whitelist = JSON.parse(counter.whitelistedUsers || "[]");
     if (whitelist.length > 0 && !whitelist.includes(message.author.id)) {
       await message.react("🚫");
@@ -93,12 +91,14 @@ client.on("messageCreate", async (message) => {
       expression = result.expression;
     }
 
-    if (isValid && mode.validate(counter.currentNumber, value, counter.position)) {
+    if (
+      isValid &&
+      mode.validate(counter.currentNumber, value, counter.position)
+    ) {
       if (counter.lastUserId === message.author.id) {
         await message.react("❌");
         await message.reply("❌ You cannot count twice in a row!");
 
-        // Reset counter
         await prisma.counter.update({
           where: { guildId: message.guild.id },
           data: {
@@ -126,6 +126,29 @@ client.on("messageCreate", async (message) => {
           expression: expression,
         },
       });
+
+      let highestCounts = await prisma.highestCounts.findFirst();
+      if (!highestCounts) {
+        highestCounts = await prisma.highestCounts.create({
+          data: { normal: 0, fibonacci: 0, prime: 0 },
+        });
+      }
+
+      const updateData = {};
+      if (modeName === "normal" && value > highestCounts.normal) {
+        updateData.normal = value;
+      } else if (modeName === "fibonacci" && value > highestCounts.fibonacci) {
+        updateData.fibonacci = value;
+      } else if (modeName === "prime" && value > highestCounts.prime) {
+        updateData.prime = value;
+      }
+
+      if (Object.keys(updateData).length > 0) {
+        await prisma.highestCounts.update({
+          where: { id: highestCounts.id },
+          data: updateData,
+        });
+      }
 
       await message.react("✅");
     } else if (isValid) {

@@ -19,26 +19,21 @@ module.exports = {
       const totalCounts = await prisma.countHistory.count();
       const activeCounters = await prisma.counter.count();
 
-      const highestNormal = await prisma.counter.findFirst({
-        where: { mode: "normal" },
-        orderBy: { currentNumber: "desc" },
-      });
-      const highestFibonacci = await prisma.counter.findFirst({
-        where: { mode: "fibonacci" },
-        orderBy: { currentNumber: "desc" },
-      });
-      const highestPrime = await prisma.counter.findFirst({
-        where: { mode: "prime" },
-        orderBy: { currentNumber: "desc" },
-      });
+      // Get or create HighestCounts record
+      let highestCounts = await prisma.highestCounts.findFirst();
+      if (!highestCounts) {
+        highestCounts = await prisma.highestCounts.create({
+          data: { normal: 0, fibonacci: 0, prime: 0 },
+        });
+      }
 
       const highestCount =
         "Normal: " +
-        (highestNormal ? highestNormal.currentNumber : 0) +
-        "\n Fibonacci: " +
-        (highestFibonacci ? highestFibonacci.currentNumber : 0) +
-        "\n Prime: " +
-        (highestPrime ? highestPrime.currentNumber : 0);
+        highestCounts.normal.toLocaleString() +
+        "\nFibonacci: " +
+        highestCounts.fibonacci.toLocaleString() +
+        "\nPrime: " +
+        highestCounts.prime.toLocaleString();
 
       const embed = new EmbedBuilder()
         .setColor("#5865F2")
