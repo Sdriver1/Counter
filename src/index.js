@@ -50,6 +50,20 @@ client.on("messageCreate", async (message) => {
 
     if (!counter || counter.channelId !== message.channel.id) return;
 
+    // Check blacklist
+    const blacklist = JSON.parse(counter.blacklistedUsers || "[]");
+    if (blacklist.includes(message.author.id)) {
+      await message.react("🚫");
+      return;
+    }
+
+    // Check whitelist (if whitelist has entries, only whitelisted users can count)
+    const whitelist = JSON.parse(counter.whitelistedUsers || "[]");
+    if (whitelist.length > 0 && !whitelist.includes(message.author.id)) {
+      await message.react("🚫");
+      return;
+    }
+
     const modeName = counter.mode || "normal";
     let mode;
     try {
