@@ -12,10 +12,10 @@
   "type": "commonjs",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dbsetup": "npx prisma migrate dev --name init",
+    "dbpush": "npx prisma db push",
     "generate": "npx prisma generate",
-    "setup": "npm run dbsetup && npm run generate",
+    "setup": "npm run dbpush && npm run generate",
+    "start": "node src/index.js",
     "dev": "npm run setup && npm start",
     "reset-db": "npx prisma migrate reset --force",
     "studio": "npx prisma studio"
