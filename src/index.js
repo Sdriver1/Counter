@@ -54,9 +54,9 @@ client.on("messageCreate", async (message) => {
 
   try {
     const counter = await prisma.counter.findFirst({
-      where: { 
+      where: {
         guildId: message.guild.id,
-        channelId: message.channel.id
+        channelId: message.channel.id,
       },
     });
 
@@ -85,6 +85,8 @@ client.on("messageCreate", async (message) => {
 
     let isValid, value, expression;
 
+    const expectedNext = mode.getNext(counter.currentNumber);
+
     if (mode.disableMath) {
       const parsed = parseInt(message.content.trim());
       if (isNaN(parsed)) {
@@ -96,7 +98,7 @@ client.on("messageCreate", async (message) => {
     } else {
       const result = require("./functions/counter/numberverifier").verifyNumber(
         message.content,
-        counter.currentNumber
+        expectedNext
       );
       isValid = result.isValid;
       value = result.value;

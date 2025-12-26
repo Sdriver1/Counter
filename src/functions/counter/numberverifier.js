@@ -5,9 +5,9 @@ function verifyNumber(input, expectedNumber) {
     const cleanInput = input.trim();
 
     if (/^[01]+$/.test(cleanInput)) {
-      const decimalValue = parseInt(cleanInput, 2);
       const asDecimal = parseInt(cleanInput, 10);
-      if (asDecimal === expectedNumber + 1) {
+      
+      if (asDecimal === expectedNumber) {
         return {
           isValid: true,
           value: asDecimal,
@@ -15,6 +15,7 @@ function verifyNumber(input, expectedNumber) {
         };
       }
 
+      const decimalValue = parseInt(cleanInput, 2);
       return {
         isValid: true,
         value: decimalValue,
