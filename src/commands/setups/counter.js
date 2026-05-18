@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const prisma = require("../../../prisma/database");
 const logger = require("../../utils/logger");
+const { buildCounterEmbed } = require("../../utils/counterEmbed");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -88,12 +89,14 @@ module.exports = {
         });
 
         await interaction.reply({
-          content: `✅ Counter setup complete! ${selectedChannel} is now the counting channel using **${countingMode}** mode. Start counting from **1**!\n\n📝 You can use math expressions like:\n• Simple: \`1\`, \`2\`, \`3\`\n• Addition: \`1+1\` for 2\n• Power: \`2^2\` for 4\n• Complex: \`(5*2)+1\` for 11`,
+          content: `✅ Counter setup complete! ${selectedChannel} is now the counting channel using **${countingMode}** mode. Start counting from **1**!`,
           ephemeral: true,
         });
       }
 
-      await selectedChannel.send("**Counting starts now! Begin with 1**");
+      const embed = buildCounterEmbed(countingMode, 0, 0);
+      const msg = await selectedChannel.send({ embeds: [embed] });
+      await msg.pin().catch(() => null);
     } catch (error) {
       logger.error({ err: error }, 'Error setting up counter');
       await interaction.reply({

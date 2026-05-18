@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 const prisma = require("../../../prisma/database");
 const logger = require("../../utils/logger");
+const { buildCounterEmbed } = require("../../utils/counterEmbed");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,12 +16,6 @@ module.exports = {
       subcommand
         .setName("mode")
         .setDescription("Change the counting mode")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addStringOption((option) =>
           option
             .setName("new-mode")
@@ -35,17 +30,17 @@ module.exports = {
               { name: "Perfect Squares", value: "squares" }
             )
         )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
+        )
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("slowmode")
         .setDescription("Set slowmode for the counting channel")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addIntegerOption((option) =>
           option
             .setName("seconds")
@@ -54,73 +49,80 @@ module.exports = {
             .setMinValue(0)
             .setMaxValue(21600)
         )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
+        )
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("blacklist")
         .setDescription("Blacklist a user from counting")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addUserOption((option) =>
           option
             .setName("user")
             .setDescription("User to blacklist")
             .setRequired(true)
         )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
+        )
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("unblacklist")
         .setDescription("Remove a user from the blacklist")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addUserOption((option) =>
           option
             .setName("user")
             .setDescription("User to unblacklist")
             .setRequired(true)
         )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
+        )
+
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("whitelist")
         .setDescription("Whitelist a user (only whitelisted users can count)")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addUserOption((option) =>
           option
             .setName("user")
             .setDescription("User to whitelist")
             .setRequired(true)
         )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
+        )
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("unwhitelist")
         .setDescription("Remove a user from the whitelist")
-        .addChannelOption((option) =>
-          option
-            .setName("channel")
-            .setDescription("The counter channel to modify")
-            .setRequired(true)
-        )
         .addUserOption((option) =>
           option
             .setName("user")
             .setDescription("User to unwhitelist")
             .setRequired(true)
+        )
+        .addChannelOption((option) =>
+          option
+            .setName("channel")
+            .setDescription("The counter channel to modify (defaults to current channel)")
+            .setRequired(false)
         )
     )
     .addSubcommand((subcommand) =>
@@ -130,8 +132,8 @@ module.exports = {
         .addChannelOption((option) =>
           option
             .setName("channel")
-            .setDescription("The counter channel to reset")
-            .setRequired(true)
+            .setDescription("The counter channel to reset (defaults to current channel)")
+            .setRequired(false)
         )
     ),
 
@@ -139,10 +141,10 @@ module.exports = {
     try {
       const subcommand = interaction.options.getSubcommand();
       const guildId = interaction.guild.id;
-      const selectedChannel = interaction.options.getChannel("channel");
+      const selectedChannel = interaction.options.getChannel("channel") || interaction.channel;
 
       const counter = await prisma.counter.findFirst({
-        where: { 
+        where: {
           guildId,
           channelId: selectedChannel.id
         },
@@ -203,9 +205,8 @@ async function handleModeChange(interaction, counter) {
   });
 
   const channel = await interaction.guild.channels.fetch(counter.channelId);
-  await channel.send(
-    `⚙️ **Counter mode changed to ${newMode}!** The counter has been reset. Start counting from the beginning!`
-  );
+  const embed = buildCounterEmbed(newMode, 0, 0);
+  await channel.send({ embeds: [embed] });
 
   await interaction.reply({
     content: `✅ Counter mode changed to **${newMode}** and counter reset!`,
@@ -301,7 +302,8 @@ async function handleReset(interaction, counter) {
   });
 
   const channel = await interaction.guild.channels.fetch(counter.channelId);
-  await channel.send("🔄 **Counter has been reset!** Start counting from 1!");
+  const embed = buildCounterEmbed(counter.mode || 'normal', 0, 0);
+  await channel.send({ embeds: [embed] });
 
   await interaction.reply({
     content: "✅ Counter has been reset to 0!",

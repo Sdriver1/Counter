@@ -9,6 +9,7 @@ const logger = require('../src/utils/logger');
 const { verifyNumber } = require('../src/functions/counter/numberverifier');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
 // ---------- Stats cache ----------
@@ -141,12 +142,12 @@ app.post('/api/verify', verifyLimiter, (req, res) => {
   // Binary-ambiguous: all 0s and 1s — bot picks interpretation based on current count
   if (/^[01]+$/.test(input)) {
     const asDecimal = parseInt(input, 10);
-    const asBinary  = parseInt(input, 2);
+    const asBinary = parseInt(input, 2);
     return res.json({
       valid: true,
       ambiguous: true,
       decimal: isFinite(asDecimal) ? asDecimal : null,
-      binary:  isFinite(asBinary)  ? asBinary  : null,
+      binary: isFinite(asBinary) ? asBinary : null,
     });
   }
 
@@ -167,7 +168,7 @@ app.use('/svg', express.static(path.join(__dirname, '../src/assets/svg')));
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 app.get('/invite', (req, res) => res.redirect('https://discord.com/oauth2/authorize?client_id=1453159969103810752&permissions=6755794578369616&integration_type=0&scope=bot'));
-app.get('/discord', (req, res) => res.redirect('https://discord.gg/3qgkYxmVfE'));
+app.get('/discord', (req, res) => res.redirect('https://discord.gg/EUJNjnc8J9'));
 
 // ---------- Error handling ----------
 app.use((req, res) => res.status(404).json({ error: 'Not found' }));
