@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,17 +24,17 @@ module.exports = {
       let highestCounts = await prisma.highestCounts.findFirst();
       if (!highestCounts) {
         highestCounts = await prisma.highestCounts.create({
-          data: { normal: 0, fibonacci: 0, prime: 0 },
+          data: { normal: 0, fibonacci: 0, prime: 0, even: 0, odd: 0, squares: 0 },
         });
       }
 
       const highestCount =
-        "Normal: " +
-        highestCounts.normal.toLocaleString() +
-        "\nFibonacci: " +
-        highestCounts.fibonacci.toLocaleString() +
-        "\nPrime: " +
-        highestCounts.prime.toLocaleString();
+        "Normal: " + highestCounts.normal.toLocaleString() +
+        "\nFibonacci: " + highestCounts.fibonacci.toLocaleString() +
+        "\nPrime: " + highestCounts.prime.toLocaleString() +
+        "\nEven: " + highestCounts.even.toLocaleString() +
+        "\nOdd: " + highestCounts.odd.toLocaleString() +
+        "\nSquares: " + highestCounts.squares.toLocaleString();
 
       const embed = new EmbedBuilder()
         .setColor("#5865F2")
@@ -76,7 +77,7 @@ module.exports = {
 
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      console.error("Error fetching bot stats:", error);
+      logger.error({ err: error }, 'Error fetching bot stats');
       await interaction.editReply({
         content: "❌ An error occurred while fetching bot statistics.",
       });

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,7 +26,7 @@ module.exports = {
   async autocomplete(interaction) {
     const focusedOption = interaction.options.getFocused(true);
     const substring = focusedOption.value.toLowerCase();
-    const modes = ["normal", "fibonacci", "prime"];
+    const modes = ["normal", "fibonacci", "prime", "even", "odd", "squares"];
     let choices = modes.filter((mode) =>
       mode.toLowerCase().startsWith(substring)
     );
@@ -94,7 +95,7 @@ module.exports = {
 
       await selectedChannel.send("**Counting starts now! Begin with 1**");
     } catch (error) {
-      console.error("Error setting up counter:", error);
+      logger.error({ err: error }, 'Error setting up counter');
       await interaction.reply({
         content: "An error occurred while setting up the counter.",
         ephemeral: true,

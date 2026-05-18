@@ -1,3 +1,5 @@
+const logger = require('../../utils/logger');
+
 async function interactionCreate(client, interaction) {
   if (interaction.isAutocomplete()) {
     const command = client.commands.get(interaction.commandName);
@@ -6,7 +8,7 @@ async function interactionCreate(client, interaction) {
     try {
       await command.autocomplete(interaction);
     } catch (error) {
-      console.error("Error handling autocomplete:", error);
+      logger.error({ err: error }, 'Error handling autocomplete');
     }
     return;
   }
@@ -18,7 +20,7 @@ async function interactionCreate(client, interaction) {
   try {
     await command.execute(interaction);
   } catch (error) {
-    console.error(error);
+    logger.error({ err: error }, 'Error executing command');
     await interaction.reply({
       content: "There was an error executing this command!",
       ephemeral: true,

@@ -1,4 +1,5 @@
 const { REST, Routes } = require('discord.js');
+const logger = require('../../utils/logger');
 
 async function registerCommands(client) {
     const commands = [];
@@ -7,16 +8,16 @@ async function registerCommands(client) {
     });
 
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
-    
+
     try {
-        console.log('🔄 Registering slash commands...');
+        logger.info('Registering slash commands...');
         await rest.put(
             Routes.applicationCommands(client.user.id),
             { body: commands },
         );
-        console.log('✅ Slash commands registered!');
+        logger.info('Slash commands registered!');
     } catch (error) {
-        console.error('❌ Error registering commands:', error);
+        logger.error({ err: error }, 'Error registering commands');
     }
 }
 

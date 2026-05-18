@@ -1,4 +1,5 @@
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 async function updateStatusChannels(client) {
   try {
@@ -9,9 +10,9 @@ async function updateStatusChannels(client) {
     });
     const activeCounters = await prisma.counter.count();
 
-    const GUILD_CHANNEL_ID = "1453210699856740446";
-    const USER_CHANNEL_ID = "1453210699856740447";
-    const COUNTER_CHANNEL_ID = "1453210699856740449";
+    const GUILD_CHANNEL_ID = process.env.STATUS_GUILD_CHANNEL_ID;
+    const USER_CHANNEL_ID = process.env.STATUS_USER_CHANNEL_ID;
+    const COUNTER_CHANNEL_ID = process.env.STATUS_COUNTER_CHANNEL_ID;
 
     if (GUILD_CHANNEL_ID) {
       const guildChannel = await client.channels
@@ -20,7 +21,7 @@ async function updateStatusChannels(client) {
       if (guildChannel) {
         await guildChannel
           .setName(`Guilds: ${guildCount.toLocaleString()}`)
-          .catch(console.error);
+          .catch((err) => logger.error({ err }, 'Failed to update status channel name'));
       }
     }
 
@@ -31,7 +32,7 @@ async function updateStatusChannels(client) {
       if (userChannel) {
         await userChannel
           .setName(`Users: ${totalUsers.toLocaleString()}`)
-          .catch(console.error);
+          .catch((err) => logger.error({ err }, 'Failed to update status channel name'));
       }
     }
 
@@ -42,11 +43,11 @@ async function updateStatusChannels(client) {
       if (counterChannel) {
         await counterChannel
           .setName(`Active Counters: ${activeCounters.toLocaleString()}`)
-          .catch(console.error);
+          .catch((err) => logger.error({ err }, 'Failed to update status channel name'));
       }
     }
   } catch (error) {
-    console.error("Error updating status channels:", error);
+    logger.error({ err: error }, 'Error updating status channels');
   }
 }
 

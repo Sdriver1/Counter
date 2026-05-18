@@ -1,347 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <title>AdvancedCounter – Advanced Discord Counting Bot</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdvancedCounter — Smart Discord Counting Bot</title>
+  <meta name="description"
+    content="AdvancedCounter is a Discord counting bot with real math expressions, multiple counting modes, streak tracking, and detailed stats. Built for real communities." />
+  <meta name="keywords"
+    content="discord counting bot, counting game, math bot, fibonacci counting, prime numbers, discord game, advanced counter" />
+  <meta name="author" content="sdriver1" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://counter.sdriver1.me/" />
+  <meta name="theme-color" content="#6366f1" />
+  <meta property="og:title" content="AdvancedCounter — Smart Discord Counting Bot" />
+  <meta property="og:description"
+    content="Real math, multiple modes, streak tracking, and detailed stats for your Discord counting channel." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <meta
-      name="description"
-      content="AdvancedCounter is an advanced Discord counting bot with math input, multiple counting modes, anti-cheat, and detailed stats. Built for real communities."
-    />
-    <meta
-      name="keywords"
-      content="discord counting bot, counting game, math bot, fibonacci counting, prime numbers, discord game, advanced counter"
-    />
-    <meta name="author" content="sdriver1" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://counter.sdriver1.me/" />
-    <meta name="theme-color" content="#5865F2" />
+<body>
 
-    <link rel="stylesheet" href="style.css" />
-  </head>
-
-  <body>
-    <div class="container">
-      <header>
-        <h1>AdvancedCounter</h1>
-
-        <p class="subtitle">
-          Not just another counting bot — a smarter, stricter, and more chaotic
-          way to count on Discord.
-        </p>
-
-        <div class="button-group">
-          <a href="/invite" class="invite-button">Add to Your Server</a>
-          <a href="/discord" class="support-button">Support Server</a>
-        </div>
-
-        <p class="hero-note">
-          Built for communities that actually care about their counting channel.
-        </p>
-      </header>
-
-      <section class="section">
-        <h2>what is advancedcounter?</h2>
-        <p>
-          AdvancedCounter is a Discord counting bot designed to go beyond basic
-          “type the next number” gameplay. It supports real math expressions,
-          multiple counting modes, strict anti-cheat rules, and detailed stats
-          across servers and users.
-        </p>
-        <p>
-          Whether your server wants casual chaos or serious number discipline,
-          AdvancedCounter adapts to how you want to count.
-        </p>
-      </section>
-
-      <section class="section">
-        <h2>why use advancedcounter?</h2>
-        <ul class="rules">
-          <li>🧮 supports math expressions, powers, roots, and binary</li>
-          <li>🧠 multiple counting modes without separate bots</li>
-          <li>🛡️ strict rules to prevent cheating and spam</li>
-          <li>📊 detailed stats for users and servers</li>
-          <li>⚙️ configurable admin controls</li>
-          <li>🚀 actively developed and maintained</li>
-        </ul>
-      </section>
-
-      <section class="section">
-        <h2>⚙️ setup</h2>
-        <div class="command">
-          <h3>/setup-counter</h3>
-          <p><strong>who can use:</strong> admins</p>
-          <p>
-            Sets up a counting channel and initializes the counter with your
-            chosen rules.
-          </p>
-          <p><strong>options:</strong></p>
-          <ul>
-            <li>
-              <code>channel</code> – choose where counting happens (default:
-              current channel)
-            </li>
-            <li>
-              <code>counting-mode</code> – normal, fibonacci, or prime numbers
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>🎮 commands</h2>
-
-        <div class="command">
-          <h3>/stats</h3>
-          <p>
-            View your personal stats or your server’s current progress,
-            including total counts and top contributors.
-          </p>
-        </div>
-
-        <div class="command">
-          <h3>/botstats</h3>
-          <p>
-            Displays global statistics across all servers, including total
-            guilds, users, counts, and record highs per mode.
-          </p>
-        </div>
-
-        <div class="command">
-          <h3>/counter-setting</h3>
-          <p><strong>who can use:</strong> admins</p>
-          <p>Fine-tune how counting works in your server.</p>
-          <ul>
-            <li><code>mode</code> – switch counting mode</li>
-            <li><code>slowmode</code> – apply channel slowmode</li>
-            <li><code>blacklist</code> / <code>unblacklist</code></li>
-            <li><code>whitelist</code> / <code>unwhitelist</code></li>
-            <li><code>reset</code> – reset the counter to zero</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>🎯 counting modes</h2>
-        <p class="section-hint">Hover over a mode to learn more</p>
-
-        <div class="modes-grid">
-          <div class="mode-card">
-            <div class="mode-front">
-              <div class="mode-icon">🔢</div>
-              <h3>Normal</h3>
-              <p class="mode-preview">1, 2, 3, 4, 5…</p>
-            </div>
-            <div class="mode-details">
-              <p>
-                The classic counting experience. Each number follows the last in
-                perfect sequence.
-              </p>
-              <p class="mode-tip">
-                💡 Perfect for casual servers and relaxed counting sessions.
-              </p>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <div class="mode-front">
-              <div class="mode-icon">🌀</div>
-              <h3>Fibonacci</h3>
-              <p class="mode-preview">1, 1, 2, 3, 5, 8…</p>
-            </div>
-            <div class="mode-details">
-              <p>
-                Each number is the sum of the previous two. The sequence grows
-                exponentially!
-              </p>
-              <p class="mode-tip">
-                ⚠️ Mistakes become increasingly painful as numbers grow.
-              </p>
-            </div>
-          </div>
-
-          <div class="mode-card">
-            <div class="mode-front">
-              <div class="mode-icon">💎</div>
-              <h3>Prime</h3>
-              <p class="mode-preview">2, 3, 5, 7, 11…</p>
-            </div>
-            <div class="mode-details">
-              <p>Only prime numbers allowed. Test your mathematical prowess!</p>
-              <p class="mode-tip">
-                🚫 No composites. No mercy. Pure mathematical challenge.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>🧮 math input support</h2>
-        <p>
-          AdvancedCounter accepts real math expressions, not just plain numbers.
-          Your input is evaluated and validated before counting.
-        </p>
-        <p class="section-hint">Click any card to learn more</p>
-
-        <div class="math-grid">
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">➕</span>
-                <strong>Addition</strong>
-              </div>
-              <div class="math-example"><code>1+1</code> → 2</div>
-            </div>
-            <div class="math-details">
-              <p>Add numbers together using the <code>+</code> operator.</p>
-              <p class="math-examples">
-                Examples: <code>5+10</code>, <code>100+200</code>
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">➖</span>
-                <strong>Subtraction</strong>
-              </div>
-              <div class="math-example"><code>10-3</code> → 7</div>
-            </div>
-            <div class="math-details">
-              <p>Subtract numbers using the <code>-</code> operator.</p>
-              <p class="math-examples">
-                Examples: <code>50-25</code>, <code>100-1</code>
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">✖️</span>
-                <strong>Multiplication</strong>
-              </div>
-              <div class="math-example"><code>3*4</code> → 12</div>
-            </div>
-            <div class="math-details">
-              <p>
-                Multiply numbers using <code>*</code> for quick calculations.
-              </p>
-              <p class="math-examples">
-                Examples: <code>5*5</code>, <code>2*3*4</code>
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">➗</span>
-                <strong>Division</strong>
-              </div>
-              <div class="math-example"><code>20/4</code> → 5</div>
-            </div>
-            <div class="math-details">
-              <p>Divide numbers using the <code>/</code> operator.</p>
-              <p class="math-examples">
-                Examples: <code>100/10</code>, <code>81/9</code>
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">⚡</span>
-                <strong>Powers</strong>
-              </div>
-              <div class="math-example"><code>2^5</code> → 32</div>
-            </div>
-            <div class="math-details">
-              <p>Use <code>^</code> to raise numbers to powers.</p>
-              <p class="math-examples">
-                Examples: <code>3^3</code>=27, <code>10^2</code>=100
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">🔗</span>
-                <strong>Grouping</strong>
-              </div>
-              <div class="math-example"><code>(5*2)+1</code> → 11</div>
-            </div>
-            <div class="math-details">
-              <p>Use parentheses to control order of operations.</p>
-              <p class="math-examples">
-                Examples: <code>(10+5)*2</code>, <code>((2+3)*4)</code>
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">√</span>
-                <strong>Square Root</strong>
-              </div>
-              <div class="math-example"><code>sqrt(49)</code> → 7</div>
-            </div>
-            <div class="math-details">
-              <p>Calculate square roots with <code>sqrt()</code>.</p>
-              <p class="math-examples">
-                Examples: <code>sqrt(144)</code>=12, <code>sqrt(81)</code>=9
-              </p>
-            </div>
-          </div>
-
-          <div class="math-card" tabindex="0">
-            <div class="math-front">
-              <div class="math-header">
-                <span class="math-icon">💻</span>
-                <strong>Binary</strong>
-              </div>
-              <div class="math-example"><code>00010000</code> → 16</div>
-            </div>
-            <div class="math-details">
-              <p>Enter numbers in binary format (base 2).</p>
-              <p class="math-examples">
-                Examples: <code>00001010</code>=10, <code>11111111</code>=255
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>📜 rules</h2>
-        <ul class="rules">
-          <li>✅ numbers must follow the current counting mode</li>
-          <li>❌ users cannot count twice in a row</li>
-          <li>❌ incorrect input resets the counter</li>
-          <li>🧮 math expressions are allowed and validated</li>
-          <li>🚫 blacklisted users cannot count</li>
-          <li>🔒 whitelist restricts counting to approved users</li>
-        </ul>
-      </section>
-
-      <footer>
-        <p>made by sdriver1</p>
-        <p>
-          <a href="https://sdriver1.dev" target="_blank">sdriver1.dev</a>
-          <span class="separator">•</span>
-          <a href="https://github.com/Sdriver1/Counter" target="_blank"
-            >github</a
-          >
-        </p>
-      </footer>
+  <!-- Nav -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        <img src="/img/counting.png" alt="" class="nav-logo-img" aria-hidden="true">
+        AdvancedCounter
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#modes">Modes</a>
+        <a href="#commands">Commands</a>
+      </div>
+      <div class="nav-cta">
+        <a href="/discord" class="btn btn-ghost btn-sm">Discord</a>
+        <a href="/invite" class="btn btn-primary btn-sm">Add to Server</a>
+      </div>
+      <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg class="icon-sm" aria-hidden="true">
+          <use href="/svg/icons.svg#icon-hamburger" />
+        </svg>
+      </button>
     </div>
-  </body>
+    <div class="nav-mobile" id="navMobile">
+      <a href="#features">Features</a>
+      <a href="#modes">Modes</a>
+      <a href="#commands">Commands</a>
+      <a href="/discord">Discord</a>
+      <a href="/invite" class="btn btn-primary">Add to Server</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Count smarter,<br>
+          <span class="gradient-text">not harder.</span>
+        </h1>
+        <p class="hero-desc">
+          AdvancedCounter brings real math expressions, six counting modes,
+          streak tracking, and detailed leaderboards to your Discord server.
+        </p>
+        <div class="hero-actions">
+          <a href="/invite" class="btn btn-primary btn-lg">
+            Add to Server <span class="btn-arrow">→</span>
+          </a>
+          <a href="/discord" class="btn btn-ghost btn-lg">Join Discord</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="discord-mockup">
+          <div class="mockup-header">
+            <span class="mockup-channel">counting</span>
+          </div>
+          <div class="mockup-messages">
+            <div class="mockup-msg">
+              <div class="mockup-avatar">
+                <img src="/img/sdriver1_icon.png" alt="Sdriver1">
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-name-row">
+                  <span class="mockup-name">Sdriver1</span>
+                  <span class="mockup-ts" id="ts-sdriver1"></span>
+                </div>
+                <span class="mockup-text">sqrt(144)</span>
+                <div class="mockup-reactions">
+                  <span class="mockup-reaction mockup-reaction--green" data-reaction-id="msg-sdriver1">✅ <span
+                      class="reaction-count">1</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-msg">
+              <div class="mockup-avatar">
+                <img src="/img/tafina.png" alt="Tafina">
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-name-row">
+                  <span class="mockup-name">Tafina</span>
+                  <span class="mockup-ts" id="ts-mike"></span>
+                </div>
+                <span class="mockup-text">13</span>
+                <div class="mockup-reactions">
+                  <span class="mockup-reaction mockup-reaction--green" data-reaction-id="msg-tafina">✅ <span
+                      class="reaction-count">1</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-msg">
+              <div class="mockup-avatar">
+                <img src="/img/pridebot_icon.png" alt="Pridebot">
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-name-row">
+                  <a href="https://pridebot.xyz" target="_blank" rel="noopener"
+                    class="mockup-name pridebot-name pridebot-link">Pridebot <img src="/img/verified.png"
+                      alt="Verified App" class="bot-tag-verified-img"></a>
+                  <span class="mockup-ts" id="ts-pridebot"></span>
+                </div>
+                <span class="mockup-text">15</span>
+                <div class="mockup-reactions">
+                  <span class="mockup-reaction mockup-reaction--red" data-reaction-id="msg-pridebot">❌ <span
+                      class="reaction-count">1</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="mockup-bot-msg">
+              <div class="mockup-avatar bot-avatar">
+                <img src="/img/counting.png" alt="AdvancedCounter">
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-name-row">
+                  <span class="mockup-name bot-name">AdvancedCounter <img src="/img/verified.png" alt="Verified App"
+                      class="bot-tag-verified-img"></span>
+                  <span class="mockup-ts" id="ts-ac"></span>
+                </div>
+                <span class="mockup-text bot-text">
+                  <svg class="icon-xs inline-icon" aria-hidden="true">
+                    <use href="/svg/icons.svg#icon-x-circle" />
+                  </svg>
+                  Wrong number! Expected 14, but got 15
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats strip -->
+    <section class="stats-strip" id="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item" data-stat="totalGuilds">
+            <span class="stat-num">—</span>
+            <span class="stat-lbl">Servers</span>
+          </div>
+          <div class="stat-item" data-stat="totalCounters">
+            <span class="stat-num">—</span>
+            <span class="stat-lbl">Active Counters</span>
+          </div>
+          <div class="stat-item" data-stat="totalCounts">
+            <span class="stat-num">—</span>
+            <span class="stat-lbl">Total Counts</span>
+          </div>
+          <div class="stat-item" data-stat="highestNormal">
+            <span class="stat-num">—</span>
+            <span class="stat-lbl">Highest Normal Count</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section features" id="features">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Everything you need</h2>
+          <p>Built for communities that take their counting channel seriously.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-calculator" />
+              </svg>
+            </div>
+            <h3>Math Expressions</h3>
+            <p>Type <code>sqrt(144)</code>, <code>2^8</code>, or <code>(5*4)+2</code>. Real math is accepted and
+              validated before it counts.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-crosshair" />
+              </svg>
+            </div>
+            <h3>Six Counting Modes</h3>
+            <p>Normal, Fibonacci, Prime, Even, Odd, and Perfect Squares — all managed by a single bot.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-shield" />
+              </svg>
+            </div>
+            <h3>Anti-Cheat</h3>
+            <p>No double counting. Blacklist bad actors, whitelist trusted users, and reset on any violation.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-flame" />
+              </svg>
+            </div>
+            <h3>Streak Tracking</h3>
+            <p>Counts consecutive correct answers per channel. Break a streak of 10+ and the whole server feels it.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-chart" />
+              </svg>
+            </div>
+            <h3>Leaderboards</h3>
+            <p>Paginated per-server leaderboards show who contributes the most to your counting channels.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon">
+              <svg class="icon-lg" aria-hidden="true">
+                <use href="/svg/icons.svg#icon-gear" />
+              </svg>
+            </div>
+            <h3>Admin Controls</h3>
+            <p>Switch modes on the fly, set slowmode, manage access lists, and reset — all via slash commands.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modes -->
+    <section class="section modes" id="modes">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Pick your challenge</h2>
+          <p>Six unique modes from casual to brutal.</p>
+        </div>
+        <div class="modes-grid">
+          <div class="mode-card reveal" data-mode="normal" data-mode-name="Normal" role="button" tabindex="0"
+            aria-label="Normal mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-hash" />
+                </svg>
+              </span>
+              <h3>Normal</h3>
+            </div>
+            <div class="mode-seq">1 → 2 → 3 → 4 → 5 → 6</div>
+            <p>The classic. Simple sequential counting for any server.</p>
+          </div>
+          <div class="mode-card reveal" data-mode="even" data-mode-name="Even" role="button" tabindex="0"
+            aria-label="Even mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-two" />
+                </svg>
+              </span>
+              <h3>Even</h3>
+            </div>
+            <div class="mode-seq">2 → 4 → 6 → 8 → 10 → 12</div>
+            <p>Even numbers only. Steady and beginner-friendly.</p>
+          </div>
+          <div class="mode-card reveal" data-mode="odd" data-mode-name="Odd" role="button" tabindex="0"
+            aria-label="Odd mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-one" />
+                </svg>
+              </span>
+              <h3>Odd</h3>
+            </div>
+            <div class="mode-seq">1 → 3 → 5 → 7 → 9 → 11</div>
+            <p>Odd numbers only. The road less taken.</p>
+          </div>
+          <div class="mode-card reveal" data-mode="fibonacci" data-mode-name="Fibonacci" role="button" tabindex="0"
+            aria-label="Fibonacci mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-infinity" />
+                </svg>
+              </span>
+              <h3>Fibonacci</h3>
+              <span class="mode-badge">Hard</span>
+            </div>
+            <div class="mode-seq">1 → 1 → 2 → 3 → 5 → 8 → 13</div>
+            <p>Each number is the sum of the previous two. Gets painful fast.</p>
+          </div>
+          <div class="mode-card reveal" data-mode="prime" data-mode-name="Prime" role="button" tabindex="0"
+            aria-label="Prime mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-diamond" />
+                </svg>
+              </span>
+              <h3>Prime</h3>
+              <span class="mode-badge">Hard</span>
+            </div>
+            <div class="mode-seq">2 → 3 → 5 → 7 → 11 → 13</div>
+            <p>Only prime numbers. No composites, no mercy.</p>
+          </div>
+          <div class="mode-card reveal" data-mode="squares" data-mode-name="Squares" role="button" tabindex="0"
+            aria-label="Squares mode — click for setup commands">
+            <div class="mode-top">
+              <span class="mode-icon">
+                <svg class="icon-md" aria-hidden="true">
+                  <use href="/svg/icons.svg#icon-squares" />
+                </svg>
+              </span>
+              <h3>Squares</h3>
+              <span class="mode-badge">Hard</span>
+            </div>
+            <div class="mode-seq">1 → 4 → 9 → 16 → 25 → 36</div>
+            <p>Perfect squares only. Looks easy on paper.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Math support -->
+    <section class="section math-section">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Real math support</h2>
+          <p>Don't just type numbers — type expressions.</p>
+        </div>
+        <div class="math-grid">
+          <div class="math-type reveal">
+            <span class="math-type-label">Addition</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>5+7</code><span>→ 12</span></div>
+              <div class="math-ex"><code>100+23</code><span>→ 123</span></div>
+              <div class="math-ex"><code>8+8+8</code><span>→ 24</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Subtraction</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>20-8</code><span>→ 12</span></div>
+              <div class="math-ex"><code>100-57</code><span>→ 43</span></div>
+              <div class="math-ex"><code>50-7-3</code><span>→ 40</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Multiplication</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>3*4</code><span>→ 12</span></div>
+              <div class="math-ex"><code>6*7</code><span>→ 42</span></div>
+              <div class="math-ex"><code>5*5*5</code><span>→ 125</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Division</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>10/2</code><span>→ 5</span></div>
+              <div class="math-ex"><code>144/12</code><span>→ 12</span></div>
+              <div class="math-ex"><code>100/4</code><span>→ 25</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Exponents</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>2^8</code><span>→ 256</span></div>
+              <div class="math-ex"><code>3^4</code><span>→ 81</span></div>
+              <div class="math-ex"><code>5^3</code><span>→ 125</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Square Root</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>sqrt(49)</code><span>→ 7</span></div>
+              <div class="math-ex"><code>sqrt(144)</code><span>→ 12</span></div>
+              <div class="math-ex"><code>sqrt(625)</code><span>→ 25</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Grouped</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>(5*2)+1</code><span>→ 11</span></div>
+              <div class="math-ex"><code>(3+4)*2</code><span>→ 14</span></div>
+              <div class="math-ex"><code>(10-4)^2</code><span>→ 36</span></div>
+            </div>
+          </div>
+          <div class="math-type reveal">
+            <span class="math-type-label">Binary</span>
+            <div class="math-examples">
+              <div class="math-ex"><code>00001100</code><span>→ 12</span></div>
+              <div class="math-ex"><code>00010000</code><span>→ 16</span></div>
+              <div class="math-ex"><code>00101010</code><span>→ 42</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="verifier-box reveal">
+          <div class="verifier-header">
+            <h3>Test an expression</h3>
+            <p>See exactly what the bot would do with your input.</p>
+          </div>
+          <div class="verifier-input-row">
+            <input type="text" id="verifierInput" class="verifier-input"
+              placeholder="e.g. sqrt(144), 2^8, (5*4)+2, 00010000" maxlength="100" autocomplete="off" spellcheck="false"
+              aria-label="Expression to verify" />
+            <button class="btn btn-primary" id="verifierBtn">Test</button>
+          </div>
+          <div class="verifier-result" id="verifierResult" hidden aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commands -->
+    <section class="section commands" id="commands">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2>Commands</h2>
+          <p>Everything you need to run your counting channel.</p>
+        </div>
+        <div class="commands-grid">
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/setup-counter</code>
+              <span class="cmd-badge admin">Admin</span>
+            </div>
+            <p>Set up a counting channel with your chosen mode. Supports all six modes via autocomplete.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/remove-counter</code>
+              <span class="cmd-badge admin">Admin</span>
+            </div>
+            <p>Remove a counting channel and all associated configuration from your server.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/counter-setting</code>
+              <span class="cmd-badge admin">Admin</span>
+            </div>
+            <p>Switch mode, set slowmode, manage blacklist / whitelist, and manually reset the count.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/stats</code>
+              <span class="cmd-badge">Everyone</span>
+            </div>
+            <p>View server counting stats, streaks, and a paginated leaderboard of top counters.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/botstats</code>
+              <span class="cmd-badge">Everyone</span>
+            </div>
+            <p>Global bot stats — guilds, total users, total counts, and record highs per mode.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/reset-counter</code>
+              <span class="cmd-badge admin">Admin</span>
+            </div>
+            <p>Manually reset the active counter to zero without changing any other settings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-box reveal">
+          <h2>Ready to count?</h2>
+          <p>Add AdvancedCounter to your server and get started in seconds.</p>
+          <div class="cta-actions">
+            <a href="/invite" class="btn btn-primary btn-lg">Add to Server →</a>
+            <a href="/discord" class="btn btn-ghost btn-lg">Join Discord</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">
+            <img src="/img/counting.png" alt="" class="nav-logo-img" aria-hidden="true">
+            AdvancedCounter
+          </span>
+          <p>A smarter way to count on Discord.</p>
+        </div>
+        <nav class="footer-links">
+          <a href="/invite">Add Bot</a>
+          <a href="/discord">Discord</a>
+          <a href="https://github.com/Sdriver1/Counter" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://sdriver1.dev" target="_blank" rel="noopener">sdriver1.dev</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>Made by <a href="https://sdriver1.dev" target="_blank" rel="noopener">sdriver1</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mode command modal -->
+  <div class="mode-modal-overlay" id="modeModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="mode-modal">
+      <div class="mode-modal-header">
+        <h3 id="modalTitle">Mode Commands</h3>
+        <button class="mode-modal-close" id="modeModalClose" aria-label="Close">&times;</button>
+      </div>
+      <p class="mode-modal-hint">Click any command to copy it to your clipboard.</p>
+      <div class="mode-modal-cmd-group">
+        <span class="mode-modal-label">Set up a new counter with this mode</span>
+        <button class="mode-modal-cmd" id="modalCmdSetup" aria-label="Copy setup command">
+          <code id="modalCmdSetupText"></code>
+          <span class="mode-modal-copy-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </span>
+          <span class="mode-modal-copied" aria-live="polite">Copied!</span>
+        </button>
+      </div>
+      <div class="mode-modal-cmd-group">
+        <span class="mode-modal-label">Switch an existing counter to this mode</span>
+        <button class="mode-modal-cmd" id="modalCmdSwitch" aria-label="Copy switch-mode command">
+          <code id="modalCmdSwitchText"></code>
+          <span class="mode-modal-copy-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+          </span>
+          <span class="mode-modal-copied" aria-live="polite">Copied!</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
 </html>

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -41,7 +42,7 @@ module.exports = {
         await channel.send("**Counter has been reset! Start counting from 1**");
       }
     } catch (error) {
-      console.error("Error resetting counter:", error);
+      logger.error({ err: error }, 'Error resetting counter');
       await interaction.reply({
         content: "An error occurred while resetting the counter.",
         ephemeral: true,

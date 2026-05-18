@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -50,7 +51,7 @@ module.exports = {
         "**This channel is no longer a counting channel.**"
       );
     } catch (error) {
-      console.error("Error removing counter:", error);
+      logger.error({ err: error }, 'Error removing counter');
       await interaction.reply({
         content: "❌ An error occurred while removing the counter.",
         ephemeral: true,

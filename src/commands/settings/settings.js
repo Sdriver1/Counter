@@ -4,6 +4,7 @@ const {
   ChannelType,
 } = require("discord.js");
 const prisma = require("../../../prisma/database");
+const logger = require("../../utils/logger");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -28,7 +29,10 @@ module.exports = {
             .addChoices(
               { name: "Normal", value: "normal" },
               { name: "Fibonacci", value: "fibonacci" },
-              { name: "Prime Numbers", value: "prime" }
+              { name: "Prime Numbers", value: "prime" },
+              { name: "Even Numbers", value: "even" },
+              { name: "Odd Numbers", value: "odd" },
+              { name: "Perfect Squares", value: "squares" }
             )
         )
     )
@@ -176,7 +180,7 @@ module.exports = {
           break;
       }
     } catch (error) {
-      console.error("Error in counter-setting:", error);
+      logger.error({ err: error }, 'Error in counter-setting');
       await interaction.reply({
         content: "❌ An error occurred while updating settings.",
         ephemeral: true,
@@ -226,31 +230,26 @@ async function handleSlowmode(interaction, counter) {
 
 async function handleBlacklist(interaction, counter, add) {
   const user = interaction.options.getUser("user");
-  const blacklist = JSON.parse(counter.blacklistedUsers || "[]");
 
   if (add) {
-    if (blacklist.includes(user.id)) {
-      return interaction.reply({
-        content: `❌ ${user.tag} is already blacklisted.`,
-        ephemeral: true,
-      });
+    const exists = await prisma.blacklistedUser.findUnique({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
+    if (exists) {
+      return interaction.reply({ content: `❌ ${user.tag} is already blacklisted.`, ephemeral: true });
     }
-    blacklist.push(user.id);
+    await prisma.blacklistedUser.create({ data: { counterId: counter.id, userId: user.id } });
   } else {
-    const index = blacklist.indexOf(user.id);
-    if (index === -1) {
-      return interaction.reply({
-        content: `❌ ${user.tag} is not in the blacklist.`,
-        ephemeral: true,
-      });
+    const exists = await prisma.blacklistedUser.findUnique({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
+    if (!exists) {
+      return interaction.reply({ content: `❌ ${user.tag} is not in the blacklist.`, ephemeral: true });
     }
-    blacklist.splice(index, 1);
+    await prisma.blacklistedUser.delete({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
   }
-
-  await prisma.counter.update({
-    where: { id: counter.id },
-    data: { blacklistedUsers: JSON.stringify(blacklist) },
-  });
 
   await interaction.reply({
     content: add
@@ -262,35 +261,30 @@ async function handleBlacklist(interaction, counter, add) {
 
 async function handleWhitelist(interaction, counter, add) {
   const user = interaction.options.getUser("user");
-  const whitelist = JSON.parse(counter.whitelistedUsers || "[]");
 
   if (add) {
-    if (whitelist.includes(user.id)) {
-      return interaction.reply({
-        content: `❌ ${user.tag} is already whitelisted.`,
-        ephemeral: true,
-      });
+    const exists = await prisma.whitelistedUser.findUnique({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
+    if (exists) {
+      return interaction.reply({ content: `❌ ${user.tag} is already whitelisted.`, ephemeral: true });
     }
-    whitelist.push(user.id);
+    await prisma.whitelistedUser.create({ data: { counterId: counter.id, userId: user.id } });
   } else {
-    const index = whitelist.indexOf(user.id);
-    if (index === -1) {
-      return interaction.reply({
-        content: `❌ ${user.tag} is not in the whitelist.`,
-        ephemeral: true,
-      });
+    const exists = await prisma.whitelistedUser.findUnique({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
+    if (!exists) {
+      return interaction.reply({ content: `❌ ${user.tag} is not in the whitelist.`, ephemeral: true });
     }
-    whitelist.splice(index, 1);
+    await prisma.whitelistedUser.delete({
+      where: { counterId_userId: { counterId: counter.id, userId: user.id } },
+    });
   }
-
-  await prisma.counter.update({
-    where: { id: counter.id },
-    data: { whitelistedUsers: JSON.stringify(whitelist) },
-  });
 
   await interaction.reply({
     content: add
-      ? `✅ ${user.tag} has been whitelisted. ${whitelist.length > 0 ? "Only whitelisted users can count now." : ""}`
+      ? `✅ ${user.tag} has been whitelisted. Only whitelisted users can count now.`
       : `✅ ${user.tag} has been removed from the whitelist.`,
     ephemeral: true,
   });

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const prisma = require('../../../prisma/database');
+const logger = require('../../utils/logger');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,6 +11,13 @@ module.exports = {
                 .setName('channel')
                 .setDescription('The counter channel to view stats for (optional)')
                 .setRequired(false)
+        )
+        .addIntegerOption((option) =>
+            option
+                .setName('page')
+                .setDescription('Leaderboard page number (default: 1)')
+                .setRequired(false)
+                .setMinValue(1)
         ),
     
     async execute(interaction) {
@@ -48,17 +56,28 @@ module.exports = {
                 }
             }
 
-            const totalCounts = await prisma.countHistory.count({
-                where: { guildId }
-            });
+            const PAGE_SIZE = 10;
+            const page = interaction.options.getInteger('page') ?? 1;
+            const skip = (page - 1) * PAGE_SIZE;
 
-            const topCounters = await prisma.countHistory.groupBy({
-                by: ['userId'],
-                where: { guildId },
-                _count: { userId: true },
-                orderBy: { _count: { userId: 'desc' } },
-                take: 5
-            });
+            const [totalCounts, topCounters, allCounters] = await Promise.all([
+                prisma.countHistory.count({ where: { guildId } }),
+                prisma.countHistory.groupBy({
+                    by: ['userId'],
+                    where: { guildId },
+                    _count: { userId: true },
+                    orderBy: { _count: { userId: 'desc' } },
+                    take: PAGE_SIZE,
+                    skip,
+                }),
+                prisma.countHistory.groupBy({
+                    by: ['userId'],
+                    where: { guildId },
+                    _count: { userId: true },
+                }).then(r => r.length),
+            ]);
+
+            const totalPages = Math.max(1, Math.ceil(allCounters / PAGE_SIZE));
 
             const embed = new EmbedBuilder()
                 .setColor('#0099ff')
@@ -71,23 +90,30 @@ module.exports = {
             for (const counter of counters) {
                 embed.addFields({
                     name: `${counter.mode.charAt(0).toUpperCase() + counter.mode.slice(1)} Mode`,
-                    value: `<#${counter.channelId}> - Current: ${counter.currentNumber}`,
+                    value: [
+                        `<#${counter.channelId}>`,
+                        `Current: **${counter.currentNumber}**`,
+                        `Streak: **${counter.streak}** (Best: ${counter.highestStreak})`
+                    ].join(' • '),
                     inline: false
                 });
             }
 
             if (topCounters.length > 0) {
                 const leaderboard = topCounters.map((entry, index) => {
-                    const emoji = ['🥇', '🥈', '🥉'][index] || '🏅';
-                    return `${emoji} <@${entry.userId}> - ${entry._count.userId} counts`;
+                    const rank = skip + index + 1;
+                    const emoji = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🏅';
+                    return `${emoji} **#${rank}** <@${entry.userId}> — ${entry._count.userId} counts`;
                 }).join('\n');
 
-                embed.addFields({ name: '🏆 Top Counters', value: leaderboard });
+                embed.addFields({ name: `🏆 Top Counters (Page ${page}/${totalPages})`, value: leaderboard });
+            } else {
+                embed.addFields({ name: '🏆 Top Counters', value: 'No counts yet on this page.' });
             }
 
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
-            console.error('Error fetching stats:', error);
+            logger.error({ err: error }, 'Error fetching stats');
             await interaction.reply({
                 content: '❌ An error occurred while fetching statistics.',
                 ephemeral: true

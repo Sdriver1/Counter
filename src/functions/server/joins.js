@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = async (client, guild) => {
-  const logChannelID = "1453210700775293012";
+  const logChannelID = process.env.LOG_CHANNEL_ID;
   const name = guild.name;
   const serverID = guild.id;
   const memberCount = guild.memberCount;
