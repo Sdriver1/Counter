@@ -219,9 +219,9 @@ async function loadStats() {
 
     const map = {
       totalGuilds: d.totalGuilds ?? 0,
+      totalUsers: d.totalUsers ?? 0,
       totalCounters: d.totalCounters ?? 0,
       totalCounts: d.totalCounts ?? 0,
-      highestNormal: d.highestCounts?.normal ?? 0,
     };
 
     document.querySelectorAll('[data-stat]').forEach(item => {

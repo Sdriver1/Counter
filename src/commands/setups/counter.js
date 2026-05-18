@@ -49,7 +49,7 @@ module.exports = {
       const countingMode =
         interaction.options.getString("counting-mode") || "normal";
       const existingCounter = await prisma.counter.findUnique({
-        where: { 
+        where: {
           guildId_mode: {
             guildId,
             mode: countingMode
@@ -57,20 +57,14 @@ module.exports = {
         },
       });
 
+      const embed = buildCounterEmbed(countingMode, 0, 0);
+      const msg = await selectedChannel.send({ embeds: [embed] });
+      await msg.pin().catch(() => null);
+
       if (existingCounter) {
         await prisma.counter.update({
-          where: { 
-            guildId_mode: {
-              guildId,
-              mode: countingMode
-            }
-          },
-          data: {
-            channelId,
-            currentNumber: 0,
-            position: 0,
-            lastUserId: null,
-          },
+          where: { guildId_mode: { guildId, mode: countingMode } },
+          data: { channelId, currentNumber: 0, position: 0, lastUserId: null, lastUserTag: null, embedMessageId: msg.id },
         });
 
         await interaction.reply({
@@ -79,13 +73,7 @@ module.exports = {
         });
       } else {
         await prisma.counter.create({
-          data: {
-            guildId,
-            channelId,
-            mode: countingMode,
-            currentNumber: 0,
-            position: 0,
-          },
+          data: { guildId, channelId, mode: countingMode, currentNumber: 0, position: 0, embedMessageId: msg.id },
         });
 
         await interaction.reply({
@@ -93,10 +81,6 @@ module.exports = {
           ephemeral: true,
         });
       }
-
-      const embed = buildCounterEmbed(countingMode, 0, 0);
-      const msg = await selectedChannel.send({ embeds: [embed] });
-      await msg.pin().catch(() => null);
     } catch (error) {
       logger.error({ err: error }, 'Error setting up counter');
       await interaction.reply({

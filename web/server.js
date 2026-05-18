@@ -21,10 +21,10 @@ async function fetchStats() {
   const now = Date.now();
   if (statsCache && now - statsCacheAt < CACHE_TTL) return statsCache;
 
-  const [totalCounters, totalCounts, highestCounts, guildRows] = await Promise.all([
+  const [totalCounters, totalCounts, botStats, guildRows] = await Promise.all([
     prisma.counter.count(),
     prisma.countHistory.count(),
-    prisma.highestCounts.findFirst(),
+    prisma.botStats.findFirst(),
     prisma.counter.groupBy({ by: ['guildId'] }),
   ]);
 
@@ -32,14 +32,7 @@ async function fetchStats() {
     totalCounters,
     totalCounts,
     totalGuilds: guildRows.length,
-    highestCounts: {
-      normal: highestCounts?.normal ?? 0,
-      fibonacci: highestCounts?.fibonacci ?? 0,
-      prime: highestCounts?.prime ?? 0,
-      even: highestCounts?.even ?? 0,
-      odd: highestCounts?.odd ?? 0,
-      squares: highestCounts?.squares ?? 0,
-    },
+    totalUsers: botStats?.totalUsers ?? 0,
   };
   statsCacheAt = now;
   return statsCache;
@@ -166,7 +159,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/img', express.static(path.join(__dirname, '../src/assets/img')));
 app.use('/svg', express.static(path.join(__dirname, '../src/assets/svg')));
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
+app.get('/', (req, res) => {
+  res.set('Cache-Control', 'no-cache');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 app.get('/invite', (req, res) => res.redirect('https://discord.com/oauth2/authorize?client_id=1453159969103810752&permissions=6755794578369616&integration_type=0&scope=bot'));
 app.get('/discord', (req, res) => res.redirect('https://discord.gg/EUJNjnc8J9'));
 

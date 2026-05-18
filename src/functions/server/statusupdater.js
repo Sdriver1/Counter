@@ -10,6 +10,12 @@ async function updateStatusChannels(client) {
     });
     const activeCounters = await prisma.counter.count();
 
+    await prisma.botStats.upsert({
+      where: { id: 'singleton' },
+      create: { id: 'singleton', totalUsers },
+      update: { totalUsers },
+    });
+
     const GUILD_CHANNEL_ID = process.env.STATUS_GUILD_CHANNEL_ID;
     const USER_CHANNEL_ID = process.env.STATUS_USER_CHANNEL_ID;
     const COUNTER_CHANNEL_ID = process.env.STATUS_COUNTER_CHANNEL_ID;

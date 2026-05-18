@@ -1,5 +1,6 @@
 const prisma = require('../../../prisma/database');
 const logger = require('../../utils/logger');
+const { buildCounterEmbed } = require('../../utils/counterEmbed');
 
 // tracks x^2 usage per user per counter for the current counting session
 // key: `${counterId}:${userId}`, value: number of times used
@@ -10,6 +11,17 @@ const SQUARES_SHORTHAND = /^\d+\s*\^\s*2$/;
 function clearCounterStrikes(counterId) {
   for (const key of squaresFormatWarnings.keys()) {
     if (key.startsWith(`${counterId}:`)) squaresFormatWarnings.delete(key);
+  }
+}
+
+async function updateEmbed(message, counter, currentNumber, streak, lastUserId) {
+  if (!counter.embedMessageId) return;
+  try {
+    const embedMsg = await message.channel.messages.fetch(counter.embedMessageId);
+    const embed = buildCounterEmbed(counter.mode || 'normal', currentNumber, streak, lastUserId);
+    await embedMsg.edit({ embeds: [embed] });
+  } catch {
+    // embed message was deleted or inaccessible — silently ignore
   }
 }
 
@@ -76,9 +88,10 @@ async function handleMessage(message) {
         const brokenStreak = counter.streak;
         await prisma.counter.update({
           where: { id: counter.id },
-          data: { currentNumber: 0, position: 0, lastUserId: null, streak: 0 },
+          data: { currentNumber: 0, position: 0, lastUserId: null, lastUserTag: null, streak: 0 },
         });
         clearCounterStrikes(counter.id);
+        await updateEmbed(message, counter, 0, 0, null);
         if (brokenStreak >= 10) {
           await message.channel.send(`💔 **Streak broken at ${brokenStreak}!** The highest streak was ${counter.highestStreak}.`);
         }
@@ -89,7 +102,7 @@ async function handleMessage(message) {
       const newHighest = Math.max(newStreak, counter.highestStreak);
       await prisma.counter.update({
         where: { id: counter.id },
-        data: { currentNumber: value, position: counter.position + 1, lastUserId: message.author.id, streak: newStreak, highestStreak: newHighest },
+        data: { currentNumber: value, position: counter.position + 1, lastUserId: message.author.id, lastUserTag: message.author.tag, streak: newStreak, highestStreak: newHighest },
       });
 
       await prisma.countHistory.create({
@@ -114,6 +127,7 @@ async function handleMessage(message) {
       }
 
       await message.react('✅');
+      await updateEmbed(message, counter, value, newStreak, message.author.id);
 
       if (modeName === 'squares' && SQUARES_SHORTHAND.test(message.content.trim())) {
         const strikeKey = `${counter.id}:${message.author.id}`;
@@ -128,9 +142,10 @@ async function handleMessage(message) {
           const brokenStreak = counter.streak;
           await prisma.counter.update({
             where: { id: counter.id },
-            data: { currentNumber: 0, position: 0, lastUserId: null, streak: 0 },
+            data: { currentNumber: 0, position: 0, lastUserId: null, lastUserTag: null, streak: 0 },
           });
           clearCounterStrikes(counter.id);
+          await updateEmbed(message, counter, 0, 0, null);
           await message.reply(`❌ Counter reset! Please type the number directly, not \`x^2\`.`);
           if (brokenStreak >= 10) {
             await message.channel.send(`💔 **Streak broken at ${brokenStreak}!** The highest streak was ${counter.highestStreak}.`);
@@ -144,9 +159,10 @@ async function handleMessage(message) {
       const brokenStreak = counter.streak;
       await prisma.counter.update({
         where: { id: counter.id },
-        data: { currentNumber: 0, position: 0, lastUserId: null, streak: 0 },
+        data: { currentNumber: 0, position: 0, lastUserId: null, lastUserTag: null, streak: 0 },
       });
       clearCounterStrikes(counter.id);
+      await updateEmbed(message, counter, 0, 0, null);
       if (brokenStreak >= 10) {
         await message.channel.send(`💔 **Streak broken at ${brokenStreak}!** The highest streak was ${counter.highestStreak}.`);
       }

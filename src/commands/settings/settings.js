@@ -206,7 +206,11 @@ async function handleModeChange(interaction, counter) {
 
   const channel = await interaction.guild.channels.fetch(counter.channelId);
   const embed = buildCounterEmbed(newMode, 0, 0);
-  await channel.send({ embeds: [embed] });
+  const msg = await channel.send({ embeds: [embed] });
+  await prisma.counter.update({
+    where: { id: counter.id },
+    data: { embedMessageId: msg.id, lastUserId: null, lastUserTag: null },
+  });
 
   await interaction.reply({
     content: `✅ Counter mode changed to **${newMode}** and counter reset!`,
@@ -303,7 +307,11 @@ async function handleReset(interaction, counter) {
 
   const channel = await interaction.guild.channels.fetch(counter.channelId);
   const embed = buildCounterEmbed(counter.mode || 'normal', 0, 0);
-  await channel.send({ embeds: [embed] });
+  const msg = await channel.send({ embeds: [embed] });
+  await prisma.counter.update({
+    where: { id: counter.id },
+    data: { embedMessageId: msg.id, lastUserId: null, lastUserTag: null },
+  });
 
   await interaction.reply({
     content: "✅ Counter has been reset to 0!",
