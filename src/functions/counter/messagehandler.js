@@ -37,6 +37,7 @@ async function handleMessage(message) {
       include: {
         blacklistedUsers: true,
         whitelistedUsers: true,
+        allowedRoles: true,
       },
     });
 
@@ -51,6 +52,15 @@ async function handleMessage(message) {
     if (counter.whitelistedUsers.length > 0) {
       const isWhitelisted = counter.whitelistedUsers.some(w => w.userId === message.author.id);
       if (!isWhitelisted) {
+        await message.react('🚫');
+        return;
+      }
+    }
+
+    if (counter.allowedRoles.length > 0) {
+      const memberRoleIds = message.member.roles.cache.map(r => r.id);
+      const hasAllowedRole = counter.allowedRoles.some(ar => memberRoleIds.includes(ar.roleId));
+      if (!hasAllowedRole) {
         await message.react('🚫');
         return;
       }

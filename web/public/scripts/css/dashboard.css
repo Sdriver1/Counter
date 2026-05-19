@@ -1,0 +1,623 @@
+/* ── Dashboard base ─────────────────────────────────────── */
+.dash-body {
+  background: var(--bg);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Login ──────────────────────────────────────────────── */
+.dash-login-wrap:not([hidden]) {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-height: 100svh;
+}
+
+.dash-login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-login-logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+.dash-login-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.dash-login-sub {
+  color: var(--text-2);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.dash-discord-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.dash-back-link {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  text-decoration: none;
+  margin-top: 4px;
+}
+
+.dash-back-link:hover {
+  color: var(--text);
+}
+
+/* ── Nav ────────────────────────────────────────────────── */
+.dash-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 18, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 60px;
+}
+
+.dash-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.dash-nav-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-2);
+}
+
+/* ── Sections ───────────────────────────────────────────── */
+.dash-section {
+  padding: 40px 0 80px;
+  flex: 1;
+}
+
+.dash-section-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.dash-section-sub {
+  color: var(--text-2);
+  margin: 0 0 32px;
+  font-size: 0.95rem;
+}
+
+/* ── Guild grid ─────────────────────────────────────────── */
+.dash-guild-section {
+  margin-bottom: 36px;
+}
+
+.dash-guild-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-2);
+  margin: 0 0 14px;
+}
+
+.dash-guild-inner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.dash-guild-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s, background 0.15s;
+  text-align: center;
+}
+
+.dash-guild-card:hover {
+  border-color: var(--accent);
+  background: var(--bg-2);
+  transform: translateY(-2px);
+}
+
+.dash-guild-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-2);
+}
+
+.dash-guild-card-initials {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.dash-guild-card-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.dash-guild-card--invite {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+.dash-guild-card--invite:hover {
+  opacity: 1;
+  border-color: var(--accent);
+  border-style: solid;
+}
+
+.dash-guild-card-invite-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* ── Guild header inside server dash ───────────────────── */
+.dash-guild-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.dash-guild-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-2);
+}
+
+.dash-guild-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* ── Tabs ───────────────────────────────────────────────── */
+.dash-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+
+.dash-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--font);
+}
+
+.dash-tab:hover {
+  color: var(--text);
+}
+
+.dash-tab.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Pane header ────────────────────────────────────────── */
+.dash-pane-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dash-pane-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.dash-counter-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Counter cards ──────────────────────────────────────── */
+.dash-counter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.dash-counter-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dash-counter-channel {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.dash-counter-channel::before {
+  content: '# ';
+  color: var(--text-2);
+}
+
+.dash-counter-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dash-mode-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  text-transform: capitalize;
+}
+
+.dash-mode-badge.normal   { background: rgba(88,101,242,0.2);  color: #8b9cf8; }
+.dash-mode-badge.fibonacci{ background: rgba(244,164,96,0.2);  color: #f4a460; }
+.dash-mode-badge.prime    { background: rgba(237,66,69,0.2);   color: #ed4245; }
+.dash-mode-badge.even     { background: rgba(87,242,135,0.2);  color: #57f287; }
+.dash-mode-badge.odd      { background: rgba(254,231,92,0.2);  color: #fee75c; }
+.dash-mode-badge.squares  { background: rgba(235,69,158,0.2);  color: #eb459e; }
+
+.dash-counter-stat {
+  font-size: 0.82rem;
+  color: var(--text-2);
+}
+
+.dash-counter-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Settings sections ──────────────────────────────────── */
+.dash-settings-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.dash-settings-section h4 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+.dash-settings-desc {
+  color: var(--text-2);
+  font-size: 0.83rem;
+  margin: 0 0 16px;
+}
+
+.dash-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  min-height: 28px;
+}
+
+.dash-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px 10px 4px 12px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.dash-tag-remove {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.dash-tag-remove:hover {
+  color: #ed4245;
+}
+
+.dash-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.dash-input {
+  flex: 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-family: var(--font);
+  transition: border-color 0.15s;
+  min-width: 0;
+}
+
+.dash-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.dash-input::placeholder {
+  color: var(--text-2);
+}
+
+/* ── Form controls ──────────────────────────────────────── */
+.dash-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.dash-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.dash-select {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.dash-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Modals ─────────────────────────────────────────────── */
+.dash-modal-overlay[hidden] {
+  display: none;
+}
+
+.dash-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 500;
+}
+
+.dash-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.dash-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+
+.dash-modal-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dash-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.dash-modal-close:hover {
+  color: var(--text);
+}
+
+.dash-modal-body {
+  padding: 20px 24px;
+}
+
+.dash-modal-warn {
+  background: rgba(254, 231, 92, 0.08);
+  border: 1px solid rgba(254, 231, 92, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #fee75c;
+  margin: 0 0 16px;
+}
+
+.dash-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 24px 20px;
+}
+
+/* ── Danger button ──────────────────────────────────────── */
+.btn-danger {
+  background: #ed4245;
+  color: #fff;
+  border: none;
+}
+
+.btn-danger:hover {
+  background: #c03537;
+}
+
+/* ── Toast ──────────────────────────────────────────────── */
+.dash-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  z-index: 600;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  max-width: 320px;
+}
+
+.dash-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dash-toast.toast-error {
+  border-color: rgba(237, 66, 69, 0.5);
+  color: #ed4245;
+}
+
+.dash-toast.toast-success {
+  border-color: rgba(87, 242, 135, 0.4);
+  color: #57f287;
+}
+
+/* ── Empty states ───────────────────────────────────────── */
+.dash-empty {
+  color: var(--text-2);
+  font-size: 0.9rem;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.dash-empty a {
+  color: var(--accent);
+}
+
+/* ── Loading skeleton ───────────────────────────────────── */
+.dash-skeleton {
+  background: var(--surface);
+  border-radius: 14px;
+  height: 72px;
+  margin-bottom: 14px;
+  animation: shimmer 1.4s infinite;
+  background: linear-gradient(90deg, var(--surface) 25%, var(--bg-2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .dash-login-box { padding: 32px 20px; }
+  .dash-guild-inner-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .dash-counter-card { flex-direction: column; align-items: flex-start; }
+  .dash-pane-header { flex-direction: column; align-items: flex-start; }
+  .dash-modal { max-width: 100%; }
+  .dash-toast { right: 16px; left: 16px; max-width: none; }
+}

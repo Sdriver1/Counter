@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/scripts/css/style.css" />
 </head>
 
 <body>
@@ -39,6 +39,7 @@
       </div>
       <div class="nav-cta">
         <a href="/discord" class="btn btn-ghost btn-sm">Discord</a>
+        <a href="/dashboard" class="btn btn-ghost btn-sm">Dashboard</a>
         <a href="/invite" class="btn btn-primary btn-sm">Add to Server</a>
       </div>
       <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu">
@@ -52,6 +53,7 @@
       <a href="#modes">Modes</a>
       <a href="#commands">Commands</a>
       <a href="/discord">Discord</a>
+      <a href="/dashboard">Dashboard</a>
       <a href="/invite" class="btn btn-primary">Add to Server</a>
     </div>
   </nav>
@@ -439,6 +441,20 @@
         <div class="commands-grid">
           <div class="cmd-card reveal">
             <div class="cmd-header">
+              <code>/stats</code>
+              <span class="cmd-badge">Everyone</span>
+            </div>
+            <p>View server counting stats, streaks, and a paginated leaderboard of top counters.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
+              <code>/botstats</code>
+              <span class="cmd-badge">Everyone</span>
+            </div>
+            <p>Global bot stats — guilds, total users, total counts, and record highs per mode.</p>
+          </div>
+          <div class="cmd-card reveal">
+            <div class="cmd-header">
               <code>/setup-counter</code>
               <span class="cmd-badge admin">Admin</span>
             </div>
@@ -457,20 +473,6 @@
               <span class="cmd-badge admin">Admin</span>
             </div>
             <p>Switch mode, set slowmode, manage blacklist / whitelist, and manually reset the count.</p>
-          </div>
-          <div class="cmd-card reveal">
-            <div class="cmd-header">
-              <code>/stats</code>
-              <span class="cmd-badge">Everyone</span>
-            </div>
-            <p>View server counting stats, streaks, and a paginated leaderboard of top counters.</p>
-          </div>
-          <div class="cmd-card reveal">
-            <div class="cmd-header">
-              <code>/botstats</code>
-              <span class="cmd-badge">Everyone</span>
-            </div>
-            <p>Global bot stats — guilds, total users, total counts, and record highs per mode.</p>
           </div>
           <div class="cmd-card reveal">
             <div class="cmd-header">
@@ -562,7 +564,7 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="/scripts/js/app.js"></script>
 </body>
 
 </html>

@@ -1214,8 +1214,9 @@ h3 {
   .hero-actions {
     justify-content: center;
   }
-  .hero-visual {
-    order: -1;
+  .mockup-msg,
+  .mockup-bot-msg {
+    text-align: left;
   }
   .discord-mockup {
     max-width: 380px;
