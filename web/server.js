@@ -306,7 +306,7 @@ app.get('/api/dashboard/guilds', requireAuth, dashLimiter, async (req, res) => {
       icon: g.icon,
       botInGuild: botGuildIds.has(g.id),
       ...(!botGuildIds.has(g.id) && {
-        inviteUrl: `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&permissions=6755794578369616&integration_type=0&scope=bot&guild_id=${g.id}`,
+        inviteUrl: `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&permissions=6755399441148992&integration_type=0&scope=bot&guild_id=${g.id}`,
       }),
     })));
   } catch (err) {
@@ -358,6 +358,9 @@ app.post('/api/dashboard/:guildId/counters', requireAuth, dashLimiter, requireGu
     if (existing) return res.status(409).json({ error: `A ${mode} counter already exists in this server` });
 
     const msg = await postCounterEmbed(channelId, mode);
+    if (msg?.id) {
+      await discordBotFetch(`/channels/${channelId}/pins/${msg.id}`, { method: 'PUT' }).catch(() => null);
+    }
     const counter = await prisma.counter.create({
       data: { guildId: req.params.guildId, channelId, mode, embedMessageId: msg?.id ?? null },
     });
@@ -379,7 +382,18 @@ app.patch('/api/dashboard/:guildId/counters/:id', requireAuth, dashLimiter, requ
     const newMode = mode && VALID_MODES.includes(mode) ? mode : counter.mode;
     const shouldReset = reset === true || (mode && mode !== counter.mode);
 
+    if (shouldReset && counter.embedMessageId) {
+      await discordBotFetch(`/channels/${counter.channelId}/messages/${counter.embedMessageId}`, { method: 'DELETE' }).catch(() => null);
+      const modeLabel = newMode.charAt(0).toUpperCase() + newMode.slice(1);
+      await discordBotFetch(`/channels/${counter.channelId}/messages`, {
+        method: 'POST',
+        body: JSON.stringify({ content: `🔄 The **${modeLabel}** counter has been reset. A new counting session is starting — count from **1**!` }),
+      }).catch(() => null);
+    }
     const msg = shouldReset ? await postCounterEmbed(counter.channelId, newMode) : null;
+    if (msg?.id) {
+      await discordBotFetch(`/channels/${counter.channelId}/pins/${msg.id}`, { method: 'PUT' }).catch(() => null);
+    }
 
     const updated = await prisma.counter.update({
       where: { id: counter.id },
@@ -508,7 +522,7 @@ app.get('/dashboard', (req, res) => {
   res.set('Cache-Control', 'no-cache');
   res.sendFile(path.join(__dirname, 'public', 'pages', 'dashboard.html'));
 });
-app.get('/invite', (req, res) => res.redirect('https://discord.com/oauth2/authorize?client_id=1453159969103810752&permissions=6755794578369616&integration_type=0&scope=bot'));
+app.get('/invite', (req, res) => res.redirect('https://discord.com/oauth2/authorize?client_id=1453159969103810752&permissions=6755399441148992&integration_type=0&scope=bot'));
 app.get('/discord', (req, res) => res.redirect('https://discord.gg/EUJNjnc8J9'));
 
 // ---------- Error handling ----------

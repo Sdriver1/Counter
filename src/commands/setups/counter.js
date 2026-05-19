@@ -57,6 +57,14 @@ module.exports = {
         },
       });
 
+      if (existingCounter?.embedMessageId) {
+        try {
+          const oldMsg = await selectedChannel.messages.fetch(existingCounter.embedMessageId);
+          await oldMsg.delete();
+        } catch {}
+        await selectedChannel.send(`🔄 The **${countingMode}** counter has been reset. A new counting session is starting — count from **1**!`).catch(() => null);
+      }
+
       const embed = buildCounterEmbed(countingMode, 0, 0);
       const msg = await selectedChannel.send({ embeds: [embed] });
       await msg.pin().catch(() => null);
